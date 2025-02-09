@@ -10,10 +10,19 @@ function SignUpForm() {
     event.preventDefault();
 
     // console.log('This is a signup form log message!');
-
+    console.log()
     try {
-      const response = await fetch('https://fsa-jwt-practice.herokuapp.com/signup');
-      const data = response.json();
+      let formData = {username: {username}, password: {password}};
+      const response = await fetch(
+        'https://fsa-jwt-practice.herokuapp.com/signup', 
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({formData}) 
+        }
+      );
+      const data = await response.json();
+
       console.log(data);
     } catch (error) {
       setError(error.message);
@@ -26,10 +35,10 @@ function SignUpForm() {
       {error && <p>{error}</p>}
       <form onSubmit={handleSubmit}>
         <label>
-          Username: <input value={username} onChange={(event) => {setUsername(event.target.value)}}/>
+          Username: <input id="username" value={username} onChange={(event) => {setUsername(event.target.value)}}/>
         </label>
         <label>
-          Password: <input type="password" value={password} onChange={(event) => {setPassword(event.target.value)}} />
+          Password: <input id="password" type="password" value={password} onChange={(event) => {setPassword(event.target.value)}} />
         </label>
         <button>Submit</button>
       </form>

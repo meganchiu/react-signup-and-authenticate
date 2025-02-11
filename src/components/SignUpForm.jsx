@@ -5,6 +5,7 @@ function SignUpForm({setToken}) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const [successSignupMsg, setSuccessSignupMsg] = useState(null);
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -28,6 +29,11 @@ function SignUpForm({setToken}) {
       if (data.token) {
         // Store the JWT token
         setToken(data.token);
+        // Set a successful signup message
+        setSuccessSignupMsg("Signup successful!");
+        // Reset the form after successful signup
+        setUsername("");
+        setPassword("");
       } else {
         throw new Error("Failed to signup.");
       }
@@ -40,9 +46,10 @@ function SignUpForm({setToken}) {
     <>
       <h2>Sign Up</h2>
       {error && <p>{error}</p>}
-      <form onSubmit={handleSubmit}>
+      {successSignupMsg && <p id="signupSuccessMsg">{successSignupMsg}</p>}
+      <form id="signupForm" onSubmit={handleSubmit}>
         <label>
-          Username: <input id="username" value={username} onChange={(event) => {setUsername(event.target.value)}} required/>
+          Username: <input minLength="8" id="username" value={username} onChange={(event) => {setUsername(event.target.value)}} required/>
         </label>
         <label>
           Password: <input id="password" type="password" value={password} onChange={(event) => {setPassword(event.target.value)}} required/>

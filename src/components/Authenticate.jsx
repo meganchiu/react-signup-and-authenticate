@@ -4,6 +4,7 @@ import { useState } from "react";
 function Authenticate({token}) {
   const [error, setError] = useState(null);
   const [successMsg, setSuccessMsg] = useState(null);
+  const [username, setUsername] = useState(null);
 
   async function handleClick() {
     try {
@@ -22,6 +23,11 @@ function Authenticate({token}) {
 
       if (data.success) {
         setSuccessMsg(data.message);
+
+        {/* Unable to display username, because it seems like 
+        when the response is returned, the username of the data 
+        property is missing entirely. */}
+        setUsername(data.data.username);
       } else {
         throw new Error(data.message);
       }
@@ -33,8 +39,12 @@ function Authenticate({token}) {
   return (
     <>
       <h2>Authenticate</h2>
-      {error && <p>{error}</p>}
-      {successMsg && <p>{successMsg}</p>}
+      {error && <p id="authError">{error}</p>}
+      {successMsg && <p id="authSuccess">{successMsg}</p>}
+      {/* Unable to display username, because it seems like 
+      when the response is returned, the username of the data 
+      property is missing entirely. */}
+      {username && <h3>Welcome, {username}!</h3>}
       <button onClick={handleClick}>Authenticate Token</button>
     </>
   );

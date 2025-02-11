@@ -40,3 +40,23 @@
 .read-the-docs {
   color: #888;
 }
+
+#authError {
+  color: red;
+}
+
+#authSuccess {
+  color: green;
+}
+
+#signupForm {
+  display: grid;
+}
+
+#signupSuccessMsg {
+  color: green;
+}
+
+button {
+  border: 1px solid black;
+}

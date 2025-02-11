@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 
-function SignUpForm() {
+function SignUpForm({setToken}) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -10,7 +10,7 @@ function SignUpForm() {
     event.preventDefault();
 
     // console.log('This is a signup form log message!');
-    console.log()
+
     try {
       let formData = {username: {username}, password: {password}};
       const response = await fetch(
@@ -24,6 +24,13 @@ function SignUpForm() {
       const data = await response.json();
 
       console.log(data);
+
+      if (data.token) {
+        // Store the JWT token
+        setToken(data.token);
+      } else {
+        throw new Error("Failed to signup.");
+      }
     } catch (error) {
       setError(error.message);
     }
@@ -35,10 +42,10 @@ function SignUpForm() {
       {error && <p>{error}</p>}
       <form onSubmit={handleSubmit}>
         <label>
-          Username: <input id="username" value={username} onChange={(event) => {setUsername(event.target.value)}}/>
+          Username: <input id="username" value={username} onChange={(event) => {setUsername(event.target.value)}} required/>
         </label>
         <label>
-          Password: <input id="password" type="password" value={password} onChange={(event) => {setPassword(event.target.value)}} />
+          Password: <input id="password" type="password" value={password} onChange={(event) => {setPassword(event.target.value)}} required/>
         </label>
         <button>Submit</button>
       </form>
